@@ -1,0 +1,13 @@
+package com.xugongkai;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class GithubActionResearchApplicationTests {
+
+    @Test
+    void contextLoads() {
+    }
+
+}
