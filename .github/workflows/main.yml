@@ -6,7 +6,7 @@ name: CI
 on:
   push:
     tags:
-      - 'release.*'
+      - 'release-v*'
 
 jobs:
   build-image:
@@ -31,11 +31,10 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
-          distribution: zulu
-          java-version: 11
+          distribution: 'temurin'
+          java-version: 17
           # 缓存gradle，若是使用maven构建，改为maven即可，具体可查看 https://github.com/actions/setup-java
-          cache: maven
-
+          cache: 'maven'
       # 打包
       - name: Maven Build
         run: mvn -B package --file pom.xml
@@ -54,7 +53,7 @@ jobs:
         with:
           registry: ${{ env.DOCKER_REGISTRY }}
           username: ${{ env.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
       # 生成名称和版本，例如 seepine/springboot-demo ，由发布 v1.2.5 触发，则分别为
       # REPO_NAME=springboot-demo
