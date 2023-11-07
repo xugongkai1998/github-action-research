@@ -6,7 +6,7 @@ name: CI
 on:
   push:
     tags:
-      - 'release-v*'
+      - 'release.*'
 
 jobs:
   build-image:
