@@ -1,0 +1,66 @@
+# 定义构建流程
+name: Build Process
+
+on:
+  push:
+    tags:
+      - 'release-v*'
+
+jobs:
+  # 定义构建作业
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 构建版本号初始化
+        id: meta
+        run: |
+          echo REPO_NAME=$(echo ${GITHUB_REPOSITORY} | awk -F"/" '{print $2}') >> $GITHUB_OUTPUT
+          echo REPO_VERSION=$(echo ${{ github.ref }} | awk -F"/" '{print $3}' | awk -F"v" '{print $2}') >> $GITHUB_OUTPUT
+
+      - name: 检出源代码
+        uses: actions/checkout@v3
+
+      - name: 初始化Java环境
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: 执行Maven编译
+        run: |
+          # 运行打包 Maven 项目的命令
+          mvn -DskipTests=true -U package
+
+      - name: 初始化Docker执行环境-QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: 初始化Docker执行环境-多平台支持
+        uses: docker/setup-buildx-action@v2
+
+      - name: 登录至Docker镜像仓库-DockerHub
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ secrets.DOCKER_REGISTRY }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: 构建Docker镜像
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          platforms: |
+            linux/amd64
+            linux/arm64
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_NAMESPACE }}/${{ steps.meta.outputs.REPO_NAME }}:latest
+            ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_NAMESPACE }}/${{ steps.meta.outputs.REPO_NAME }}:${{ steps.meta.outputs.REPO_VERSION }}
+          cache-from: type=local,src=/opt/dockercache/.buildx-${{ steps.meta.outputs.REPO_NAME }}-cache
+          cache-to: type=local,dest=/opt/dockercache/.buildx-${{ steps.meta.outputs.REPO_NAME }}-cache-new,mode=max
+
+      - name: 重建Docker缓存
+        run: |
+          rm -rf /opt/dockercache/.buildx-${{ steps.meta.outputs.REPO_NAME }}-cache
+          mv /opt/dockercache/.buildx-${{ steps.meta.outputs.REPO_NAME }}-cache-new /opt/dockercache/.buildx-${{ steps.meta.outputs.REPO_NAME }}-cache
