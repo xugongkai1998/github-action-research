@@ -1,4 +1,4 @@
-FROM fabric8/java-alpine-openjdk11-jre
+FROM openjdk:17-alpine
 
 RUN rm -f /etc/localtime \
 && ln -sv /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
