@@ -55,8 +55,8 @@ jobs:
             linux/arm64
           push: true
           tags: |
-            xgk:${{ steps.meta.outputs.REPO_NAME }}:latest
-            xgk:${{ steps.meta.outputs.REPO_NAME }}:${{ steps.meta.outputs.REPO_VERSION }}
+            com.xugongkai.images/${{ steps.meta.outputs.REPO_NAME }}:latest
+            com.xugongkai.images/${{ steps.meta.outputs.REPO_NAME }}:${{ steps.meta.outputs.REPO_VERSION }}
           cache-from: type=local,src=/opt/dockercache/.buildx-${{ steps.meta.outputs.REPO_NAME }}-cache
           cache-to: type=local,dest=/opt/dockercache/.buildx-${{ steps.meta.outputs.REPO_NAME }}-cache-new,mode=max
 
