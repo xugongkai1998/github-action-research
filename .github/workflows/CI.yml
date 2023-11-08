@@ -55,8 +55,8 @@ jobs:
             linux/arm64
           push: true
           tags: |
-            ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/${{ steps.meta.outputs.REPO_NAME }}:latest
-            ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/${{ steps.meta.outputs.REPO_NAME }}:${{ steps.meta.outputs.REPO_VERSION }}
+            ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_NAMESPACE }}/${{ steps.meta.outputs.REPO_NAME }}:latest
+            ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_NAMESPACE }}/${{ steps.meta.outputs.REPO_NAME }}:${{ steps.meta.outputs.REPO_VERSION }}
           cache-from: type=local,src=/opt/dockercache/.buildx-${{ steps.meta.outputs.REPO_NAME }}-cache
           cache-to: type=local,dest=/opt/dockercache/.buildx-${{ steps.meta.outputs.REPO_NAME }}-cache-new,mode=max
 
