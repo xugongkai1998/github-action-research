@@ -3,8 +3,6 @@ name: Build Process
 
 on:
   push:
-    branches:
-      - master
     tags:
       - 'release-v*'
 
@@ -57,8 +55,8 @@ jobs:
             linux/arm64
           push: true
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}:${{ steps.meta.outputs.REPO_NAME }}:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}:${{ steps.meta.outputs.REPO_NAME }}:${{ steps.meta.outputs.REPO_VERSION }}
+            xugongkai:${{ steps.meta.outputs.REPO_NAME }}:latest
+            xugongkai:${{ steps.meta.outputs.REPO_NAME }}:${{ steps.meta.outputs.REPO_VERSION }}
           cache-from: type=local,src=/opt/dockercache/.buildx-${{ steps.meta.outputs.REPO_NAME }}-cache
           cache-to: type=local,dest=/opt/dockercache/.buildx-${{ steps.meta.outputs.REPO_NAME }}-cache-new,mode=max
 
