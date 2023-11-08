@@ -51,7 +51,7 @@ jobs:
           context: .
           file: ./Dockerfile
           platforms: |
-            linux/arm64
+            linux/amd64
           push: true
           tags: |
             ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_NAMESPACE }}/${{ steps.meta.outputs.REPO_NAME }}:latest
