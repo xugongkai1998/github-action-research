@@ -1,5 +1,5 @@
 # 定义构建流程
-name: CI
+name: Build Process
 
 on:
   push:
@@ -18,7 +18,7 @@ jobs:
         run: |
           echo REPO_NAME=$(echo ${GITHUB_REPOSITORY} | awk -F"/" '{print $2}') >> $GITHUB_OUTPUT
           echo REPO_VERSION=$(echo ${{ github.ref }} | awk -F"/" '{print $3}' | awk -F"v" '{print $2}') >> $GITHUB_OUTPUT
-          
+
       - name: 检出源代码
         uses: actions/checkout@v3
 
@@ -33,20 +33,20 @@ jobs:
         run: |
           # 运行打包 Maven 项目的命令
           mvn -DskipTests=true -U package
- 
+
       - name: 初始化Docker执行环境-QEMU
         uses: docker/setup-qemu-action@v2
-        
+
       - name: 初始化Docker执行环境-多平台支持
         uses: docker/setup-buildx-action@v2
 
       - name: 登录至Docker镜像仓库-DockerHub
         uses: docker/login-action@v2
         with:
-          registry: ${{ env.DOCKER_REGISTRY }}
-          username: ${{ env.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-      
+          registry: docker.io
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
       - name: 构建Docker镜像
         uses: docker/build-push-action@v4
         with:
@@ -61,7 +61,7 @@ jobs:
             ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_USERNAME }}/${{ steps.meta.outputs.REPO_NAME }}:${{ steps.meta.outputs.REPO_VERSION }}
           cache-from: type=local,src=/opt/dockercache/.buildx-${{ steps.meta.outputs.REPO_NAME }}-cache
           cache-to: type=local,dest=/opt/dockercache/.buildx-${{ steps.meta.outputs.REPO_NAME }}-cache-new,mode=max
-          
+
       - name: 重建Docker缓存
         run: |
           rm -rf /opt/dockercache/.buildx-${{ steps.meta.outputs.REPO_NAME }}-cache
