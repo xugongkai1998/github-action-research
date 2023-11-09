@@ -12,7 +12,10 @@ jobs:
       - name: 连接服务器(SSH)
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: ls -a
+          command: |
+            pwd
+            ls -la
+            echo "Hello~"
           host: ${{ secrets.TENCENT_3_YEARS_SSH_HOST }}
           username: root
           port: 22
