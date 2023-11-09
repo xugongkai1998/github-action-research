@@ -1,4 +1,3 @@
-# 定义构建流程
 name: Build Process
 
 on:
@@ -63,3 +62,16 @@ jobs:
         run: |
           rm -rf /opt/dockercache/.buildx-${{ steps.meta.outputs.REPO_NAME }}-cache
           mv /opt/dockercache/.buildx-${{ steps.meta.outputs.REPO_NAME }}-cache-new /opt/dockercache/.buildx-${{ steps.meta.outputs.REPO_NAME }}-cache
+
+      - name: 启动服务-节点数量[5]-版本:${{ steps.meta.outputs.REPO_VERSION }}
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          host: ${{ secrets.TENCENT_3_YEARS_SSH_HOST }}
+          username: root
+          port: 22
+          privateKey: ${{ secrets.TENCENT_3_YEARS_SSH_PRIVATE_KEY}}
+          command: |
+            cd /server
+            echo 'IMAGE_VERSION=${{ steps.meta.outputs.REPO_VERSION }}' > docker-compose-services.env
+            docker compose --env-file docker-compose-services.env -f docker-compose-services.yml up -d --force-recreate --scale github-action-research=5
+            docker image prune -a --force --filter "until=24h"
