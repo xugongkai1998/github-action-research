@@ -63,7 +63,7 @@ jobs:
           rm -rf /opt/dockercache/.buildx-${{ steps.meta.outputs.REPO_NAME }}-cache
           mv /opt/dockercache/.buildx-${{ steps.meta.outputs.REPO_NAME }}-cache-new /opt/dockercache/.buildx-${{ steps.meta.outputs.REPO_NAME }}-cache
 
-      - name: 启动服务-节点数量[5]-版本:${{ steps.meta.outputs.REPO_VERSION }}
+      - name: 启动服务-节点数量[5]
         uses: garygrossgarten/github-action-ssh@release
         with:
           host: ${{ secrets.TENCENT_3_YEARS_SSH_HOST }}
