@@ -7,4 +7,5 @@ RUN rm -f /etc/localtime \
 
 ADD target/github-action-research-0.0.1-SNAPSHOT.jar /app/app.jar
 
-ENTRYPOINT ["java", "-jar","/app/app.jar"]
+ENV JAVA_OPTS=""
+CMD java ${JAVA_OPTS} -jar /app/app.jar
