@@ -71,7 +71,7 @@ jobs:
           port: 22
           privateKey: ${{ secrets.TENCENT_3_YEARS_SSH_PRIVATE_KEY}}
           command: |
-            cd /server
-            echo 'IMAGE_VERSION=${{ steps.meta.outputs.REPO_VERSION }}' > docker-compose-services.env
-            docker compose --env-file docker-compose-services.env -f docker-compose-services.yml up -d --force-recreate --scale github-action-research=5
+            cd ${{ secrets.DEPLOY_PATH }}
+            echo 'IMAGE_VERSION=${{ steps.meta.outputs.REPO_VERSION }}' > ${{ secrets.DEPLOY_ENV_FILE_PATH }}
+            docker compose --env-file ${{ secrets.DEPLOY_ENV_FILE_PATH }} -f ${{ secrets.DEPLOY_DOCKER_COMPOSE_FILE_PATH }} up -d --force-recreate --scale github-action-research=${{secrets.DEPLOY_INSTANCE_NODE_NUM}}
             docker image prune -a --force --filter "until=24h"
