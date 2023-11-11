@@ -25,9 +25,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: 'maven'
-          server-id: rdc-snapshots
-          server-username: 65425846f717cdf76f54c22b
-          server-password: kNRNQ7Hj8srp
+          server-id: ${{ secrets.PRIVATE_MAVEN_REPOSITORY_ID }}
+          server-username: ${{ secrets.PRIVATE_MAVEN_REPOSITORY_USERNAME }}
+          server-password: ${{ secrets.PRIVATE_MAVEN_REPOSITORY_PASSWORD }}
 
       - name: 查看Maven配置
         run: |
