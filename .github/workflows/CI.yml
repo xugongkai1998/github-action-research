@@ -29,6 +29,10 @@ jobs:
           server-username: 65425846f717cdf76f54c22b
           server-password: kNRNQ7Hj8srp
 
+      - name: 查看Maven配置
+        run: |
+          cat ~/.m2/settings.xml
+          
       - name: 执行Maven编译
         run: |
           # 运行打包 Maven 项目的命令
