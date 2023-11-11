@@ -25,9 +25,10 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: 'maven'
-          # 这里只是在初始化mvn环境时，声明指定的变量的名称，下文在使用到mvn的地方，需要通过env标签给这些变量赋值
+          # server-id是直接指定名称的，不是声明变量的形式！！！！！
+          # 另外的用户名，密码： 是在初始化mvn环境时，声明指定的变量的名称，下文在使用到mvn的地方，需要通过env标签给这些变量赋值
           # 参见：https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#publishing-using-apache-maven
-          server-id: ALIYUN_PRIVATE_REPOSITORY_ID
+          server-id: ${{ secrets.PRIVATE_MAVEN_REPOSITORY_ID }}
           server-username: ALIYUN_PRIVATE_REPOSITORY_USERNAME
           server-password: ALIYUN_PRIVATE_REPOSITORY_PASSWORD
 
@@ -40,7 +41,6 @@ jobs:
           # 运行打包 Maven 项目的命令
           mvn -DskipTests=true -U clean package --file pom.xml
         env:
-          ALIYUN_PRIVATE_REPOSITORY_ID: ${{ secrets.PRIVATE_MAVEN_REPOSITORY_ID }}
           ALIYUN_PRIVATE_REPOSITORY_USERNAME: ${{ secrets.PRIVATE_MAVEN_REPOSITORY_USERNAME }}
           ALIYUN_PRIVATE_REPOSITORY_PASSWORD: ${{ secrets.PRIVATE_MAVEN_REPOSITORY_PASSWORD }}
           
