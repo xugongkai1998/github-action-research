@@ -68,7 +68,7 @@ jobs:
         with:
           host: ${{ secrets.TENCENT_3_YEARS_SSH_HOST }}
           username: root
-          port: 22
+          port: 60000
           privateKey: ${{ secrets.TENCENT_3_YEARS_SSH_PRIVATE_KEY}}
           command: |
             cd ${{ secrets.DEPLOY_PATH }}
