@@ -27,6 +27,13 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!--测试引入私服二方包-->
+        <dependency>
+            <groupId>com.kaikaia</groupId>
+            <artifactId>kaikaia-framework-base</artifactId>
+            <version>2023.11.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -37,5 +44,42 @@
             </plugin>
         </plugins>
     </build>
+
+    <repositories>
+        <repository>
+            <id>central</id>
+            <url>https://maven.aliyun.com/nexus/content/groups/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>snapshots</id>
+            <url>https://maven.aliyun.com/nexus/content/groups/public</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <!--配置Maven私服仓库 主要用于服务构建的时候，由于构建时已经脱离了开发机器，需要在GithubAction脚本执行阶段提供要使用的私服配置-->
+            <!--不要调整该id，该id是私服配置，要和本地maven的setting.xml里的保持一致，对应上用户名&密码-->
+            <!--同时在GithubAction部署脚本中，也是用该id传递的私服用户名&密码，以连接到私服拉取二方包构建-->
+            <!--参见：https://packages.aliyun.com/repos/2430267-snapshot-p4zkDw/packages-->
+            <id>rdc-snapshots</id>
+            <url>https://packages.aliyun.com/maven/repository/2430267-snapshot-p4zkDw/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
 </project>
