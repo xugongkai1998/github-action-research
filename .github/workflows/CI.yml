@@ -32,7 +32,7 @@ jobs:
       - name: 执行Maven编译
         run: |
           # 运行打包 Maven 项目的命令
-          mvn -DskipTests=true -U clean package
+          mvn -DskipTests=true -U clean package --file pom.xml
 
       - name: 初始化Docker执行环境-QEMU
         uses: docker/setup-qemu-action@v2
