@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.5</version>
+        <version>2.4.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.xugongkai</groupId>
@@ -32,7 +32,7 @@
         <dependency>
             <groupId>com.kaikaia</groupId>
             <artifactId>kaikaia-framework-all</artifactId>
-            <version>2023.11.1-SNAPSHOT</version>
+            <version>2023.11.12-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
