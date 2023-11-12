@@ -43,7 +43,6 @@ jobs:
         env:
           ALIYUN_PRIVATE_REPOSITORY_USERNAME: ${{ secrets.PRIVATE_MAVEN_REPOSITORY_USERNAME }}
           ALIYUN_PRIVATE_REPOSITORY_PASSWORD: ${{ secrets.PRIVATE_MAVEN_REPOSITORY_PASSWORD }}
-          
 
       - name: 初始化Docker执行环境-QEMU
         uses: docker/setup-qemu-action@v2
