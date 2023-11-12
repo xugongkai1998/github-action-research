@@ -1,0 +1,8 @@
+spring:
+  main:
+    banner-mode: off
+  application:
+    name: github-action-research
+server:
+  servlet:
+    context-path: /${spring.application.name}
