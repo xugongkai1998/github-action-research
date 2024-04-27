@@ -1,6 +1,5 @@
 package com.xugongkai;
 
-import com.kaikaia.Main;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,8 +24,7 @@ public class GithubActionResearchApplication {
     public String hello() {
         CompilationMXBean compilationMXBean = ManagementFactory.getCompilationMXBean();
         String compilationMXBeanName = compilationMXBean.getName();
-        Main.main(null);
-        return "Hello, I am " + compilationMXBeanName + ", variables foo.bar=" + foobar;
+        return "Hello, I am " + compilationMXBeanName + ", variables foo.bar=" + foobar +", have a good time!";
     }
 
 }
