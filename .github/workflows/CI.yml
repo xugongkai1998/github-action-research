@@ -76,7 +76,7 @@ jobs:
           rm -rf /opt/dockercache/.buildx-${{ steps.meta.outputs.REPO_NAME }}-cache
           mv /opt/dockercache/.buildx-${{ steps.meta.outputs.REPO_NAME }}-cache-new /opt/dockercache/.buildx-${{ steps.meta.outputs.REPO_NAME }}-cache
 
-      - name: 启动服务-节点数量[5]
+      - name: 启动服务-多结点|非scale命令扩容|结点数量:docker-compose编排决定
         uses: garygrossgarten/github-action-ssh@release
         with:
           host: ${{ secrets.TENCENT_3_YEARS_SSH_HOST }}
@@ -86,5 +86,5 @@ jobs:
           command: |
             cd ${{ secrets.DEPLOY_PATH }}
             echo 'IMAGE_VERSION=${{ steps.meta.outputs.REPO_VERSION }}' > ${{ secrets.DEPLOY_ENV_FILE_PATH }}
-            docker compose --env-file ${{ secrets.DEPLOY_ENV_FILE_PATH }} -f ${{ secrets.DEPLOY_DOCKER_COMPOSE_FILE_PATH }} up -d --force-recreate --scale github-action-research=${{secrets.DEPLOY_INSTANCE_NODE_NUM}}
+            docker compose --env-file ${{ secrets.DEPLOY_ENV_FILE_PATH }} -f ${{ secrets.DEPLOY_DOCKER_COMPOSE_FILE_PATH }} up -d --force-recreate
             docker image prune -a --force --filter "until=24h"
