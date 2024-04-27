@@ -1,6 +1,5 @@
 package com.xugongkai;
 
-import cn.hutool.core.util.RuntimeUtil;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -17,8 +16,8 @@ import java.lang.management.ManagementFactory;
 @SpringBootApplication
 public class GithubActionResearchApplication {
 
-    @Value("${foo.bar:default}")
-    private String foobar;
+    @Value("${server.node:default}")
+    private String node;
 
     public static void main(String[] args) {
         SpringApplication.run(GithubActionResearchApplication.class, args);
@@ -28,12 +27,11 @@ public class GithubActionResearchApplication {
     public String hello() {
         CompilationMXBean compilationMXBean = ManagementFactory.getCompilationMXBean();
         String compilationMXBeanName = compilationMXBean.getName();
-        return "Hello, I am " + compilationMXBeanName + ", variables foo.bar=" + foobar +", have a good time!";
+        return "Hello, I am " + compilationMXBeanName + ", node=" + node +", have a good time!";
     }
 
     @Bean
     MeterRegistryCustomizer<MeterRegistry> meterRegistryMeterRegistryCustomizer(@Value("${spring.application.name:unknown}") String applicationName) {
-        int pid = RuntimeUtil.getPid();
-        return registry -> registry.config().commonTags("application", applicationName + "@" + pid);
+        return registry -> registry.config().commonTags("application", applicationName + "@" + node);
     }
 }

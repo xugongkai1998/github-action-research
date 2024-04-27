@@ -4,6 +4,7 @@ spring:
   application:
     name: github-action-research
 server:
+  node: node0
   servlet:
     context-path: /${spring.application.name}
   port: 8080
